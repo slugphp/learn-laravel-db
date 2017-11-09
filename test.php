@@ -1,21 +1,22 @@
 <?php
 
+use Illuminate\Database\Schema\Blueprint;
+
 require __DIR__ . '/loadDB.php';
 
-$createSql = <<<EOF
-    CREATE TABLE TT_COMPANY
-    (
-        ID INTEGER AUTO_INCREMENT,
-        NAME TEXT NOT NULL,
-        AGE INT NOT NULL,
-        ADDRESS CHAR(50),
-        SALARY REAL
-    );
-EOF;
-
 try {
-    DB::connection()->statement($createSql);
+    Schema::create('users', function (Blueprint $table) {
+        $table->increments('id');
+        $table->integer('age');
+        $table->string('name');
+        $table->string('company');
+        $table->string('email')->unique();
+        $table->string('password');
+        $table->rememberToken();
+        $table->timestamps();
+    });
 } catch (Exception $e) {
+    echo $e->getMessage(), PHP_EOL;
 }
 
 DB::table('company')->insert(

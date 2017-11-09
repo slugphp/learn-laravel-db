@@ -21,3 +21,27 @@ class DB extends Illuminate\Support\Facades\Facade
         return 'db';
     }
 }
+
+class Schema extends Facade
+{
+    /**
+     * Get a schema builder instance for a connection.
+     *
+     * @param  string  $name
+     * @return \Illuminate\Database\Schema\Builder
+     */
+    public static function connection($name)
+    {
+        return DB::connection($name)->getSchemaBuilder();
+    }
+
+    /**
+     * Get a schema builder instance for the default connection.
+     *
+     * @return \Illuminate\Database\Schema\Builder
+     */
+    protected static function getFacadeAccessor()
+    {
+        return DB::connection()->getSchemaBuilder();
+    }
+}
