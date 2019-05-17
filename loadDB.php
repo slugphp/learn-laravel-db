@@ -16,7 +16,7 @@ class DB extends Illuminate\Support\Facades\Facade
             $capsule->setAsGlobal();
             $capsule->bootEloquent();
             $capsule->connection()->enableQueryLog();    // debug
-            self::$resolvedInstance['db'] = $capsule;
+            self::$resolvedInstance['db'] = $capsule->connection();
         }
         return 'db';
     }
