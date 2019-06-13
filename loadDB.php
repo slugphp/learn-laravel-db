@@ -8,8 +8,16 @@ class DB extends Illuminate\Support\Facades\Facade
     {
         if (!isset(self::$resolvedInstance['db'])) {
             $dbConfig = [
-                // ...
-                // your db config
+                'driver' => getenv('DB_DRIVER'),
+                'host' => getenv('DB_HOST'),
+                'port' => getenv('DB_PORT'),
+                'database' => getenv('DB_DATABASE'),
+                'modes' => [],
+                'username' => getenv('DB_USERNAME'),
+                'password' => getenv('DB_PASSWORD'),
+                'charset' => getenv('DB_CHARSET'),
+                'collation' => getenv('DB_COLLATION'),
+                'prefix' => getenv('DB_PREFIX'),
             ];
             $capsule = new Illuminate\Database\Capsule\Manager;
             $capsule->addConnection($dbConfig);
@@ -22,19 +30,8 @@ class DB extends Illuminate\Support\Facades\Facade
     }
 }
 
-class Schema extends Facade
+class Schema extends Illuminate\Support\Facades\Facade
 {
-    /**
-     * Get a schema builder instance for a connection.
-     *
-     * @param  string  $name
-     * @return \Illuminate\Database\Schema\Builder
-     */
-    public static function connection($name)
-    {
-        return DB::connection($name)->getSchemaBuilder();
-    }
-
     /**
      * Get a schema builder instance for the default connection.
      *
@@ -42,6 +39,6 @@ class Schema extends Facade
      */
     protected static function getFacadeAccessor()
     {
-        return DB::connection()->getSchemaBuilder();
+        return DB::getSchemaBuilder();
     }
 }
